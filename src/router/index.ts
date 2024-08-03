@@ -72,17 +72,19 @@ router.beforeEach(async (to, _, next) => {
     const defaultTitle = "Default Title";
     const defaultDescription = "Default Description";
 
-    pageTitle.value = title || defaultTitle;
-    document.title = title || defaultTitle;
+    pageTitle.value = (title as string | undefined) || defaultTitle;
+    document.title = (title as string | undefined) || defaultTitle;
 
     const descriptionElement = document.querySelector(
         'head meta[name="description"]'
     );
 
-    descriptionElement.setAttribute(
-        "content",
-        description || defaultDescription
-    );
+    if (descriptionElement) {
+        descriptionElement.setAttribute(
+            "content",
+            (description as string | undefined) || defaultDescription
+        );
+    }
 
     const authStore = useAuthStore();
     if (!authStore.token && to.name !== "login") {
