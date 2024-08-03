@@ -6,6 +6,14 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@api/*": ["./src/api/*"],
+      "@v/*": ["./src/views/*"],
+      "@l/*": ["./src/layouts/*"],
+      "@s/*": ["./src/stores/*"],
+      "@c/*": ["./src/components/*"],
+    },
     "skipLibCheck": true,
 
     /* Bundler mode */
@@ -23,5 +31,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "*.ts"]
 }

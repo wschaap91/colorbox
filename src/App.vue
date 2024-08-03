@@ -1,50 +1,41 @@
 <script setup lang="ts">
 
-  import { ref } from 'vue'
-  import { FormKitNode } from '@formkit/core'
+  import { watch } from 'vue'
+  import useGlobalRouter from '@/router/globalRouterInstance'
+  import { useRouter } from 'vue-router'
+  import initRefreshStore from '@s/_initRefreshStores'
+  initRefreshStore()
 
-  const token = ref('');
+  const { gRouter } = useGlobalRouter()
+  const router = useRouter()
+  gRouter.value = router
 
-  const dbURL = "https://x8ki-letl-twmt.n7.xano.io/api:VTauLUMK"
+  import { useAuthStore } from './stores/authStore';
+  const authStore = useAuthStore()
 
-  async function login(formData: { email: string, password: string }, node: FormKitNode) {
-    try {
-      const response = await fetch(dbURL + "/auth/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
+  import { refreshStore } from '@/utilities/mapApiStore'
 
-      const { authToken } = await response.json();
-      token.value = authToken;
-    } catch (error) {
-      node.setErrors({ email: 'Invalid email or password' });
+
+  watch(() => authStore.token, (newToken, oldToken) => {
+    if (oldToken !== '' && newToken === '') {
+      router.push({ name: 'login' })
     }
-  }
+    if (newToken !== '') {
+      console.log('fetching me')
+      refreshStore('me');
+    }
+  }, { immediate: true })
+
+
+
 </script>
 
 <template>
-  <h2>Welcome to colorbox</h2>
-  <FormKit type="form"
-           @submit="login">
-    <FormKit type="email"
-             label="Email"
-             name="email"
-             required
-             validation="required" />
-    <FormKit type="password"
-             label="Password"
-             name="password"
-             required
-             validation="required" />
-
-  </FormKit>
-  <pre>
-    Logged in?:
-    {{ !!token }}
-  </pre>
+  <div class="h-dvh bg-amber-50">
+    <div class="container">
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>
