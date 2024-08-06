@@ -356,6 +356,43 @@ export interface paths {
       };
     };
   };
+  "/csvupload": {
+    /**
+     * <br /><br />
+     * <b>Authentication:</b> not required
+     */
+    post: {
+      parameters: {};
+      responses: {
+        /** Success! */
+        200: {
+          content: {
+            "application/json": { [key: string]: unknown };
+          };
+        };
+        /** Input Error. Check the request payload for issues. */
+        400: unknown;
+        /** Unauthorized */
+        401: unknown;
+        /** Access denied. Additional privileges are needed access the requested resource. */
+        403: unknown;
+        /** Not Found. The requested resource does not exist. */
+        404: unknown;
+        /** Rate Limited. Too many requests. */
+        429: unknown;
+        /** Unexpected error */
+        500: unknown;
+      };
+      requestBody: {
+        content: {
+          "multipart/form-data": {
+            /** Format: binary */
+            csvpaintfile?: string | null;
+          };
+        };
+      };
+    };
+  };
   [key: `/manufacturers/${number}`]: {
     /**
      * <br /><br />
@@ -1127,6 +1164,39 @@ export interface paths {
       };
     };
   };
+  [key: `/usercollections/paint/${number}`]: {
+    /**
+     * <br /><br />
+     * <b>Authentication:</b> required
+     */
+    delete: {
+      parameters: {
+        path: {
+          paints_id: number;
+        };
+      };
+      responses: {
+        /** Success! */
+        200: {
+          content: {
+            "application/json": { [key: string]: unknown };
+          };
+        };
+        /** Input Error. Check the request payload for issues. */
+        400: unknown;
+        /** Unauthorized */
+        401: unknown;
+        /** Access denied. Additional privileges are needed access the requested resource. */
+        403: unknown;
+        /** Not Found. The requested resource does not exist. */
+        404: unknown;
+        /** Rate Limited. Too many requests. */
+        429: unknown;
+        /** Unexpected error */
+        500: unknown;
+      };
+    };
+  };
   [key: `/usercollections/${number}`]: {
     /**
      * <br /><br />
@@ -1304,7 +1374,7 @@ export interface paths {
     };
     /**
      * <br /><br />
-     * <b>Authentication:</b> not required
+     * <b>Authentication:</b> required
      */
     post: {
       parameters: {};
@@ -1344,15 +1414,11 @@ export interface paths {
         content: {
           "application/json": {
             /** Format: int64 */
-            user_id?: number;
-            /** Format: int64 */
-            paints_id?: number;
+            paints_id: number;
           };
           "multipart/form-data": {
             /** Format: int64 */
-            user_id?: number;
-            /** Format: int64 */
-            paints_id?: number;
+            paints_id: number;
           };
         };
       };

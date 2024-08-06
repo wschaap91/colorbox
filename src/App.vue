@@ -31,7 +31,7 @@
 </script>
 
 <template>
-  <div class="h-dvh bg-amber-50">
+  <div class="h-dvh bg-slate-50">
     <div class="container">
       <router-view></router-view>
     </div>

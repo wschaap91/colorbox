@@ -27,6 +27,23 @@ function getManufacturers() {
     >;
 }
 
+function addPaintToCollection(
+    collectionObj: Omit<Collection, "id" | "user_id">
+) {
+    return apiCall(
+        "/usercollections",
+        "post",
+        null,
+        collectionObj
+    ) as Promise<Collection>;
+}
+
+function deletePaintFromCollection({
+    paints_id,
+}: Omit<Collection, "id" | "user_id">) {
+    return apiCall(`/usercollections/paint/${paints_id}`, "delete", null, null);
+}
+
 function getColorCatagories() {
     return apiCall("/colorcategories", "get", null, null) as Promise<
         ColorCatagory[]
@@ -34,6 +51,8 @@ function getColorCatagories() {
 }
 
 export {
+    addPaintToCollection,
+    deletePaintFromCollection,
     getCollection,
     getPaints,
     getPaintLines,

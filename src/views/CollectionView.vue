@@ -8,9 +8,24 @@
 
 </script>
 <template>
-    <div class="flex gap-2">
-        <PaintCard v-for="paint in myPaints"
-                   :paint="paint"
-                   :key="paint.id"></PaintCard>
-    </div>
+    <TransitionGroup name="list"
+                     tag="ul"
+                     class="paint-container">
+        <li v-for="paint in myPaints"
+            :key="paint.id">
+            <PaintCard :paint="paint"></PaintCard>
+        </li>
+    </TransitionGroup>
 </template>
+
+<style scoped lang="scss">
+.paint-container {
+    display: grid;
+    gap: 1rem;
+    display: grid;
+    grid-template-rows: auto;
+    grid-auto-rows: auto;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+}
+</style>
